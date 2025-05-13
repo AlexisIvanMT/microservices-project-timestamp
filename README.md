@@ -16,7 +16,7 @@ El microservicio expone una API que puede recibir una fecha en formato UNIX o en
 │   └── style.css
 ├── views/             # Archivos de vistas (HTML)
 │   └── index.html
-└── README.md          # Este archivo
+└── README.md          # Descripción del proyecto
 ```
 
 ## Instalación
