@@ -17,19 +17,65 @@
     <div class="container">
       <h2>Example Usage:</h2>
       <ul>
-        <li><a href="api/2015-12-25">[project url]/api/2015-12-25</a></li>
-        <li><a href="api/1451001600000">[project url]/api/1451001600000</a></li>
+        <li>
+          <a href="api/2015-12-25" class="api-link" data-api="2015-12-25">[project url]/api/2015-12-25</a>
+          <div class="api-result" id="result-2015-12-25"></div>
+        </li>
+        <li>
+          <a href="api/1451001600000" class="api-link" data-api="1451001600000">[project url]/api/1451001600000</a>
+          <div class="api-result" id="result-1451001600000"></div>
+        </li>
       </ul>
 
       <h2>Example Output:</h2>
       <p>
         <code>{"unix":1451001600000, "utc":"Fri, 25 Dec 2015 00:00:00 GMT"}</code>
       </p>
+
+      <h2>Probar tu propia fecha:</h2>
+      <form id="dateForm">
+        <input type="text" id="dateInput" placeholder="YYYY-MM-DD o timestamp UNIX" style="padding:0.5em; width:220px;">
+        <button type="submit" style="padding:0.5em 1em;">Enviar</button>
+      </form>
+      <div id="apiResult" style="margin-top:1.5em;"></div>
     </div>
     <div class="footer">
       <p>
         By <a href="https://www.freecodecamp.org/">freeCodeCamp.org</a>
       </p>
     </div>
+    <script>
+      document.getElementById('dateForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const value = document.getElementById('dateInput').value.trim();
+        const url = value ? `/api/${encodeURIComponent(value)}` : '/api/';
+        const resultDiv = document.getElementById('apiResult');
+        resultDiv.textContent = 'Cargando...';
+        try {
+          const res = await fetch(url);
+          const data = await res.json();
+          resultDiv.textContent = JSON.stringify(data, null, 2);
+        } catch (err) {
+          resultDiv.textContent = 'Error al consultar la API';
+        }
+      });
+
+      // Intercepta los clics en los enlaces de ejemplo
+      document.querySelectorAll('.api-link').forEach(function(link) {
+        link.addEventListener('click', async function(e) {
+          e.preventDefault();
+          const date = link.getAttribute('data-api');
+          const resultDiv = document.getElementById('result-' + date);
+          resultDiv.textContent = 'Cargando...';
+          try {
+            const res = await fetch('/api/' + encodeURIComponent(date));
+            const data = await res.json();
+            resultDiv.textContent = JSON.stringify(data, null, 2);
+          } catch (err) {
+            resultDiv.textContent = 'Error al consultar la API';
+          }
+        });
+      });
+    </script>
   </body>
 </html>
