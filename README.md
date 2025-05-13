@@ -52,6 +52,10 @@ El microservicio expone una API que puede recibir una fecha en formato UNIX o en
     { "error": "Invalid Date" }
     ```
 
+## Screenshot
+
+![Screenshot](assets/aplication.png)
+
 ## Notas
 - Los archivos estáticos (como el CSS) se sirven desde la carpeta `public`.
 - El archivo principal de configuración de rutas es `myapp.js`.
